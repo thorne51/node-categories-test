@@ -8,7 +8,7 @@ const deleteCategory = require('./deleteCategory');
 const controllers = {
     createCategory: async (req, res) => {
         try {
-            res.send(await createCategory.createCategory(req.body.data));
+            res.send(await createCategory.createCategory(req.body));
         } catch (err) {
             res.status(400).json({
                 message: err.message,
