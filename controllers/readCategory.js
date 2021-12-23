@@ -15,14 +15,8 @@ module.exports.readCategories = async function(page, limit) {
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
 
-    if (endIndex < (await Category.countDocuments().exec())) {
-        result.next = true;
-    }
-
-    if (startIndex > 0) {
-        result.previous = true;
-    }
-
+    result.previous = startIndex > 0;
+    result.next = endIndex < (await Category.countDocuments().exec());
     result.categories = await Category.find()
         .limit(limit)
         .skip(startIndex);
