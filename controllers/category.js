@@ -1,9 +1,9 @@
 'use strict';
 
-const createCategory = require('createCategory');
-const readCategory = require('readCategory');
-const updateCategory = require('updateCategory');
-const deleteCategory = require('deleteCategory');
+const createCategory = require('./createCategory');
+const readCategory = require('./readCategory');
+const updateCategory = require('./updateCategory');
+const deleteCategory = require('./deleteCategory');
 
 const controllers = {
     createCategory: async (req, res) => {
