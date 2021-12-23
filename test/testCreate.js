@@ -3,6 +3,7 @@ const chaiAsPromised = require('chai-as-promised');
 const expect = chai.expect;
 const createCategory = require('../controllers/createCategory').createCategory;
 const db = require('./db');
+const faker = require('faker');
 
 chai.use(chaiAsPromised)
 
@@ -12,9 +13,13 @@ describe('Create category', () => {
     after(async () => await db.closeDatabase());
 
     it('should create category successfully', async () => {
+        const title = faker.lorem.words(5);
+        const slug = faker.helpers.slugify(title);
+        const is_indexed = faker.datatype.boolean();
+
         const cat = await createCategory({
-            slug: 'test-slug',
-            is_indexed: true,
+            slug,
+            is_indexed,
             locks: {},
             settings: {
                 age_rating: 'A',
@@ -23,16 +28,16 @@ describe('Create category', () => {
             media: {},
             locale: {
                 specify_seo_values: false,
-                title: 'test title',
+                title,
                 description: 'test description',
                 summary: 'test summary',
                 language_iso: 'en_ZA',
             },
         });
 
-        expect(cat.slug).to.be.equal('test-slug');
-        expect(cat.is_indexed).to.be.true;
-        expect(cat.locale[0].title).to.be.equal('test title');
+        expect(cat.slug).to.be.equal(slug);
+        expect(cat.is_indexed).to.be.equal(is_indexed);
+        expect(cat.locale[0].title).to.be.equal(title);
         expect(cat.isNew).to.be.false;
     });
 
